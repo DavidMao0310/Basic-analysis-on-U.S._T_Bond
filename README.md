@@ -2,7 +2,8 @@
 Some probelms in prediction. If I Use the 'Date' index, then I will face the problems in the prediction.
 Another problem is whether I should change the daily price to weekly price? This may be more general. 
 
-[Reference](http://web.vu.lt/mif/a.buteikis/wp-content/uploads/2019/02/02_StationaryTS_Python.html)
+Here is the [Reference](http://web.vu.lt/mif/a.buteikis/wp-content/uploads/2019/02/02_StationaryTS_Python.html)
+
 **We use ARIMA model to predict the Close Price of US T-Bond futures**
 ----
 First we check stationary of the data, if not, then we calculate its difference and recheck it until it tends to stationary.
@@ -27,8 +28,15 @@ def predict(fit, oridata):
     plt.show()
 ```
 
-`plot_predict` is a function in `statsmodels.tsa.arima_model` which can predict the future values.
+`plot_predict` is a function in `statsmodels.tsa.arima_model` which can be used to predict the future values.
 If I change the `data.size` to the date index, then it appears some problems.
+
+
+
+
+
+
+
 
 
 
