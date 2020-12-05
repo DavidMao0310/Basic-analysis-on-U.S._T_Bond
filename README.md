@@ -15,9 +15,9 @@ Auto-select the order of ARIMA then build the model.
 
 Then we fit the model and do the residuals analysis. From the plot we can see the model fit well.
 
-*Prediction*
+***Prediction***
 
-(```)
+```ruby
 def predict(fit, oridata):
     fig = plt.figure(figsize=(14, 8))
     fit.plot_predict(end=oridata.size + 50 , ax=fig.add_subplot(211))
@@ -25,7 +25,7 @@ def predict(fit, oridata):
     fit.plot_predict(start=oridata.size - 100, end=oridata.size + 50, ax=fig.add_subplot(212))
     plt.tight_layout()
     plt.show()
-(```)
+```
 
 `plot_predict` is a function in `statsmodels.tsa.arima_model` which can predict the future values.
 If I change the `data.size` to the date index, then it appears some problems.
