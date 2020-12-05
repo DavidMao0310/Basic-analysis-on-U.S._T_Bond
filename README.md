@@ -1,4 +1,4 @@
-## FM2-assignment-timeseries
+# FM2-assignment-timeseries
 Some probelms in prediction. If I Use the 'Date' index, then I will face the problems in the prediction.
 Another problem is whether I should change the daily price to weekly price? This may be more general. 
 
@@ -6,14 +6,19 @@ Another problem is whether I should change the daily price to weekly price? This
 **We use ARIMA model to predict the Close Price of US T-Bond futures**
 ----
 First we check stationary of the data, if not, then we calculate its difference and recheck it until it tends to stationary.
+
 Notice that the P-value of ADF test indicates there is enough evidence to say it is stationary.
+
 Use Ljung-Box test to check whether it is a White Noise Process.
+
 Auto-select the order of ARIMA then build the model.
+
 Then we fit the model and do the residuals analysis. From the plot we can see the model fit well.
 
-
 *Prediction*
-(```)def predict(fit, oridata):
+
+(```)
+def predict(fit, oridata):
     fig = plt.figure(figsize=(14, 8))
     fit.plot_predict(end=oridata.size + 50 , ax=fig.add_subplot(211))
     plt.legend().remove()
@@ -21,6 +26,9 @@ Then we fit the model and do the residuals analysis. From the plot we can see th
     plt.tight_layout()
     plt.show()
 (```)
+
+`plot_predict` is a function in `statsmodels.tsa.arima_model` which can predict the future values.
+If I change the `data.size` to the date index, then it appears some problems.
 
 
 
