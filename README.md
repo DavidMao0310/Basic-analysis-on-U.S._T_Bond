@@ -2,7 +2,70 @@
 
 Here is the [Reference](http://web.vu.lt/mif/a.buteikis/wp-content/uploads/2019/02/02_StationaryTS_Python.html)
 
-**We use ARIMA model to predict the Close Price of US T-Bond futures**
+## We are going to study the performance of U.S. Treasury Bond and do some analysis
+
+###Daily Return and volatility analysis
+----
+First we do some data preprocessing and add some features. 
+Now we are going to ﬁnd the volatility of the Treasury bond futures. 
+The primary method to measure volatility is the standard deviation. We calculate the 30 days standard deviation 
+In order to have a good visualization. 
+Before that, we need to ﬁnd the simple moving average (denoted by SMA onwards) ﬁrst. 
+The SMA calculates the average of a selected range of prices, usually closing prices, by the number of periods in that range. 
+Through the tendency of the SMA, it is easier to see the price trend. 
+If the SMA points up, this means that the price is increasing, while if it is pointing down, it means that the price is decreasing. 
+So it can be used to quickly identify whether uptrend or downtrend.
+```
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set_style('whitegrid')
+import pandas as pd
+import talib
+sp = pd.read_csv("adj USTB-10 years.csv")
+sp['Date'] = pd.to_datetime(sp['Date'], format='%Y/%m/%d')
+sp.set_index('Date', inplace=True)
+sp['5d future close'] = sp['Adj Close'].shift(-5)
+sp['5d close future pct'] = sp['5d future close'].pct_change(5)
+sp['5d close pct'] = sp['Adj Close'].pct_change(5)
+print(sp)
+# Create moving averages and rsi for time-periods of 15, 50, 200
+for n in [15, 50, 100]:
+    # Create the simple moving average indicator
+    sp['SMA' + str(n)] = talib.SMA(sp['Adj Close'].values, timeperiod=n)
+    # Create the RSI indicator
+    sp['RSI' + str(n)] = talib.RSI(sp['Adj Close'].values, timeperiod=n)
+print(sp.columns.values.tolist())
+```
+Another way is to use Bollinger Bands to analyze standard deviation over time. 
+Bollinger Bands consists of three lines: the SMA and two bands placed one standard deviation above and below the SMA.
+```
+#Bollinger
+sp['Std(30)'] = sp['Adj Close'].rolling(window=30).std()
+sp['Upper Band'] = sp['SMA15'] + (sp['Std(30)'] * 2)
+sp['Lower Band'] = sp['SMA15'] - (sp['Std(30)'] * 2)
+# set style, empty figure and axes
+plt.style.use('fivethirtyeight')
+fig = plt.figure(figsize=(12,6))
+ax = fig.add_subplot(111)
+# Get index values for the X axis for DataFrame
+x_axis = sp.index.get_level_values(0)
+
+# Plot 15 days Bollinger Band
+ax.fill_between(x_axis, sp['Upper Band'], sp['Lower Band'], color='silver')
+# Plot Adjust Closing Price and Moving Averages
+sns.scatterplot(x=x_axis, y=sp['Adj Close'],label='Adj Close', color='lightpink', size=0.0001, alpha=0.5, legend=False)
+sns.lineplot(x=x_axis, y=sp['SMA15'],label='SMA(15)', color='mediumseagreen',lw=2)
+# Set Title & Show the Image
+ax.set_title('Bollinger Band')
+ax.set_xlabel('Date')
+ax.set_ylabel('Price')
+plt.show()
+```
+
+
+
+
+#### Now we use ARIMA model to predict the Close Price of US T-Bond futures
 ----
 First we check stationary of the data, if not, then we calculate its difference and recheck it until it tends to stationary.
 
