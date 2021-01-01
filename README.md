@@ -1,10 +1,10 @@
-# FM2-assignment-timeseries 
+# FM2-assignment-timeseries #
 
 Here is the [Reference](http://web.vu.lt/mif/a.buteikis/wp-content/uploads/2019/02/02_StationaryTS_Python.html)
 
-## We are going to study the performance of U.S. Treasury Bond and do some analysis
+We are going to study the performance of U.S. Treasury Bond and do some analysis 
 
-###Daily Return and volatility analysis
+Daily Return and volatility analysis
 ----
 First we do some data preprocessing and add some features. 
 Now we are going to ﬁnd the volatility of the Treasury bond futures. 
@@ -65,7 +65,7 @@ plt.show()
 
 
 
-#### Now we use ARIMA model to predict the Close Price of US T-Bond futures
+Now we use ARIMA model to predict the Close Price of US T-Bond futures
 ----
 First we check stationary of the data, if not, then we calculate its difference and recheck it until it tends to stationary.
 
